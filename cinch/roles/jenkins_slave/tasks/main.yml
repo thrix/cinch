@@ -69,6 +69,14 @@
     mode: 0644
   notify: restart swarm
 
+- name: inject additional variables to swarm's environment
+  lineinfile:
+    dest: /etc/sysconfig/jenkins_swarm
+    line: "{{ item }}"
+    state: present
+  with_items: "{{ jswarm_environment }}"
+  notify: restart swarm
+
 - name: upload swarm systemd file
   template:
     src: swarm.service
